@@ -4,20 +4,20 @@ export type GameMode = 'player' | 'computer';
 export type GameState = 'menu' | 'game' | 'result';
 
 export interface TChip {
-  player: Player;
-  size: ChipSize;
+    player: Player;
+    size: ChipSize;
 }
 
 export type Board = (TChip | null)[][];
 
 export interface PlayerChips {
-  small: number;
-  medium: number;
-  large: number;
+    small: number;
+    medium: number;
+    large: number;
 }
 
 export interface GameInfo {
-  board: Board;
-  currentPlayer: Player;
-  playerChips: Record<Player, PlayerChips>;
+    board: Board;
+    currentPlayer: Player;
+    playerChips: Record<Player, PlayerChips>;
 }
