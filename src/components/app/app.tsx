@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GameMenu from '../GameMenu';
 import GameBoard from '../GameBoard';
 import GameResult from '../GameResult';
@@ -6,6 +6,20 @@ import { GameMode, GameState, Player } from '../../types/gameTypes';
 import './App.css';
 
 export function App() {
+    useEffect(() => {
+        if (window.Telegram?.WebApp) {
+            const webApp = window.Telegram.WebApp;
+            webApp.expand();
+            webApp.enableClosingConfirmation();
+
+            // Настройка MainButton
+            webApp.MainButton.setText('В меню');
+            webApp.MainButton.onClick(() => {
+                // Логика возврата в меню
+            });
+        }
+    }, []);
+
     const [gameState, setGameState] = useState<GameState>('menu');
     const [gameMode, setGameMode] = useState<GameMode | null>(null);
     const [winner, setWinner] = useState<Player | 'draw' | null>(null);
