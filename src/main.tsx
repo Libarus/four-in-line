@@ -14,10 +14,13 @@ function initTelegramApp() {
 }
 
 // Проверяем, загружен ли Telegram WebApp
-if (window.Telegram?.WebApp) {
-    window.Telegram.WebApp.ready();
-    initTelegramApp();
-} else {
-    // Режим разработки вне Telegram
-    initTelegramApp();
-}
+// if (window.Telegram?.WebApp) {
+//     window.Telegram.WebApp.ready();
+//     initTelegramApp();
+// } else {
+//     // Режим разработки вне Telegram
+//     initTelegramApp();
+// }
+
+
+initTelegramApp();
