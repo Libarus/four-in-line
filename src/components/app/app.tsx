@@ -3,7 +3,7 @@ import GameMenu from '../GameMenu';
 import GameBoard from '../GameBoard';
 import GameResult from '../GameResult';
 import { GameMode, GameState, Player } from '../../types/gameTypes';
-import './App.css';
+import './app.css';
 
 export function App() {
     const [gameState, setGameState] = useState<GameState>('menu');
