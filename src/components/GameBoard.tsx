@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Chip from './Chip';
+import { Chip } from './Chip';
 import { Board, TChip, ChipSize, GameMode, Player, PlayerChips } from '../types/gameTypes';
+import { Button } from '@/shared/components/ui';
+import { cn } from '@/shared/lib/utils';
 
 interface GameBoardProps {
     gameMode: GameMode;
@@ -160,8 +162,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
         const cell = board[row][col];
         const isInteractive = gameMode === 'player' || currentPlayer === 1;
 
+        const class_name = cn('w-20 h-20 bg-border rounded-md', 'flex items-center justify-center', 'hover:bg-primary/10 transition-colors');
+
         return (
-            <div className={`cell ${isInteractive ? 'interactive' : ''}`} onClick={() => isInteractive && handleCellClick(row, col)}>
+            <div onClick={() => isInteractive && handleCellClick(row, col)} className={class_name}>
                 {cell && <Chip player={cell.player} size={cell.size} />}
             </div>
         );
@@ -172,19 +176,21 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
     // };
 
     return (
-        <div className='game-board'>
-            <div className='game-info'>
-                <h2 className={`player-${currentPlayer}-color`}>Ход игрока {currentPlayer}</h2>
-                <button className='menu-btn' onClick={returnToMenu}>
-                    В меню
-                </button>
+        <div>
+            <div>
+                <h2 className={`player-${currentPlayer}-color text-center text-2xl font-bold pb-10 pt-5`}>Ход игрока {currentPlayer}</h2>
             </div>
-            <div className='board'>
-                {board.map((row, rowIndex) => (
-                    <div key={rowIndex} className='board-row'>
-                        {row.map((_, colIndex) => renderCell(rowIndex, colIndex))}
-                    </div>
-                ))}
+            <div className='flex justify-center w-full'>
+                <div className='grid grid-cols-4 gap-4 w-fit'>
+                    {board.map((row: (TChip | null)[], rowIndex: number) => (
+                        <>{row.map((_, colIndex) => renderCell(rowIndex, colIndex))}</>
+                    ))}
+                </div>
+            </div>
+            <div className='text-center pt-5'>
+                <Button variant='outline' className='menu-btn' onClick={returnToMenu}>
+                    Вернуться в меню
+                </Button>
             </div>
         </div>
     );

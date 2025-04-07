@@ -118,3 +118,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.player-1-color {    
+    color:red;
+}
+
+.player-2-color {    
+    color: blue;
+}

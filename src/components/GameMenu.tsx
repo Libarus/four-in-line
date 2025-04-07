@@ -8,23 +8,30 @@ interface GameMenuProps {
 
 const GameMenu: React.FC<GameMenuProps> = ({ startGame }) => {
     return (
-        <Card className='p-5'>
-            <CardContent>
-                <p>
-                    Правила: Игра для двух игроков. Игроки делают ход по очереди. В игре присутствует 3 размера фишек: маленькие, средние и большие.
-                    Выставляйте фишки разных размеров. В пустую ячейку можно поставить только маленькую фишку, в ячейку с маленькой только среднюю, а
-                    в срднюю только большоую. На фишку противника тоже можно ставить свою фишку. Первый, кто соберёт ряд из 4 своих фишек, побеждает!
-                </p>
-                <div className='flex flex-col gap-4 pt-5'>
-                    <Button variant='outline' onClick={() => startGame('player')}>
-                        Играть вдвоём
-                    </Button>
-                    <Button variant='outline' onClick={() => startGame('computer')}>
-                        Играть с компьютером
-                    </Button>
-                </div>
-            </CardContent>
-        </Card>
+        <div className='flex justify-center w-full'>
+            <div className='grid grid-cols-1 gap-4 w-fit'>
+                <Card className='p-5'>
+                    <CardContent>
+                        <p>
+Правила: стратегическая игра для двух игроков на поле 4×4, где нужно выставлять фишки разного размера.
+Существует всего три размера фишек: маленький, средний, большой.
+Побеждает тот, кто первым соберет 4 свои фишки в ряд (по горизонтали, вертикали или диагонали).
+Фишки ставятся по следующему правилу: на пустое место ставится маленькая, на маленькую - средняя, на среднюю - большая.
+Учитывается только размер, а не чья фишка стоит в клетке (на фишку противника можно поставить свою фишку). 
+
+                        </p>
+                        <div className='flex flex-col gap-4 pt-5'>
+                            <Button variant='secondary' onClick={() => startGame('player')} className='p-10 border-2'>
+                                Играть вдвоём
+                            </Button>
+                            <Button variant='secondary' onClick={() => startGame('computer')} className='p-10 border-2'>
+                                Играть с компьютером
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     );
 };
 

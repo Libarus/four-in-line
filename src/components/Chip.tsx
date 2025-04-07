@@ -1,14 +1,18 @@
-import React from 'react';
 import { ChipSize, Player } from '../types/gameTypes';
+import { Badge, BadgeX, Bolt } from 'lucide-react';
 
 interface ChipProps {
     player: Player;
     size: ChipSize;
 }
 
-const Chip: React.FC<ChipProps> = ({ player, size }) => {
-    const chipClass = `chip player-${player} ${size}`;
-    return <div className={chipClass}></div>;
+const chipSizes: Record<ChipSize, number> = {
+    small: 20,
+    medium: 40,
+    large: 60,
 };
 
-export default Chip;
+export function Chip({ player, size }: ChipProps) {
+    const chipClass = `player-${player}-color`;
+    return player === 1 ? <Badge className={chipClass} size={chipSizes[size]} /> : <BadgeX className={chipClass} size={chipSizes[size]} />;
+};
