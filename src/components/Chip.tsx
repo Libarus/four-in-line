@@ -1,5 +1,5 @@
 import { ChipSize, Player } from '../types/gameTypes';
-import { Badge, BadgeX, Bolt } from 'lucide-react';
+import { Badge, BadgeX } from 'lucide-react';
 
 interface ChipProps {
     player: Player;
