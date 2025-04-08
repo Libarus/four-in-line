@@ -6,14 +6,15 @@ import { cn } from '@/shared/lib/utils';
 
 interface GameBoardProps {
     gameMode: GameMode;
+    gameCells: number;
     endGame: (winner: Player | 'draw') => void;
     returnToMenu: () => void;
 }
 
-const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }) => {
-    const initialBoard: Board = Array(4)
+const GameBoard: React.FC<GameBoardProps> = ({ gameMode, gameCells, endGame, returnToMenu }) => {
+    const initialBoard: Board = Array(gameCells)
         .fill(null)
-        .map(() => Array(4).fill(null));
+        .map(() => Array(gameCells).fill(null));
 
     const initialPlayerChips = {
         small: 16,
@@ -45,8 +46,8 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
         setTimeout(() => {
             const validMoves: { row: number; col: number; size: ChipSize }[] = [];
 
-            for (let row = 0; row < 4; row++) {
-                for (let col = 0; col < 4; col++) {
+            for (let row = 0; row < gameCells; row++) {
+                for (let col = 0; col < gameCells; col++) {
                     const cell = board[row][col];
                     const nextSize = getNextChipSize(cell);
 
@@ -127,11 +128,11 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
             let count = 1;
 
             // Проверяем в положительном направлении
-            for (let i = 1; i < 4; i++) {
+            for (let i = 1; i < gameCells; i++) {
                 const newRow = row + i * dx;
                 const newCol = col + i * dy;
 
-                if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
+                if (newRow >= 0 && newRow < gameCells && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
                     count++;
                 } else {
                     break;
@@ -139,7 +140,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
             }
 
             // Проверяем в отрицательном направлении
-            for (let i = 1; i < 4; i++) {
+            for (let i = 1; i < gameCells; i++) {
                 const newRow = row - i * dx;
                 const newCol = col - i * dy;
 
@@ -150,7 +151,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
                 }
             }
 
-            if (count >= 4) {
+            if (count >= gameCells) {
                 return true;
             }
         }
@@ -171,17 +172,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
         );
     };
 
-    // const getChipCountText = (player: Player, size: ChipSize): string => {
-    //   return `${size.charAt(0).toUpperCase() + size.slice(1)}: ${playerChips[player][size]}`;
-    // };
-
     return (
         <div>
             <div>
                 <h2 className={`player-${currentPlayer}-color text-center text-2xl font-bold pb-10 pt-5`}>Ход игрока {currentPlayer}</h2>
             </div>
             <div className='flex justify-center w-full'>
-                <div className='grid grid-cols-4 gap-4 w-fit'>
+                <div className={`grid grid-cols-${gameCells} gap-4 w-fit`}>
                     {board.map((row: (TChip | null)[], rowIndex: number) => (
                         <>{row.map((_, colIndex) => renderCell(rowIndex, colIndex))}</>
                     ))}

@@ -8,10 +8,12 @@ import './app.css';
 export function App() {
     const [gameState, setGameState] = useState<GameState>('menu');
     const [gameMode, setGameMode] = useState<GameMode | null>(null);
+    const [gameCells, setGameCells] = useState<number>(4);
     const [winner, setWinner] = useState<Player | 'draw' | null>(null);
 
-    const startGame = (mode: GameMode) => {
+    const startGame = (mode: GameMode, cells: number) => {
         setGameMode(mode);
+        setGameCells(cells);
         setGameState('game');
     };
 
@@ -30,7 +32,7 @@ export function App() {
             <h1 className='text-center text-2xl p-5'>ЧЕТЫРЕ В РЯД</h1>
             <div>
                 {gameState === 'menu' && <GameMenu startGame={startGame} />}
-                {gameState === 'game' && gameMode && <GameBoard gameMode={gameMode} endGame={endGame} returnToMenu={returnToMenu} />}
+                {gameState === 'game' && gameMode && <GameBoard gameMode={gameMode} gameCells={gameCells} endGame={endGame} returnToMenu={returnToMenu} />}
                 {gameState === 'result' && winner && <GameResult winner={winner} returnToMenu={returnToMenu} />}
             </div>
         </div>

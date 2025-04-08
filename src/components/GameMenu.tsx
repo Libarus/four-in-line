@@ -3,7 +3,7 @@ import { GameMode } from '../types/gameTypes';
 import { Button, Card, CardContent } from '@/shared/components/ui';
 
 interface GameMenuProps {
-    startGame: (mode: GameMode) => void;
+    startGame: (mode: GameMode, cells: number) => void;
 }
 
 const GameMenu: React.FC<GameMenuProps> = ({ startGame }) => {
@@ -13,20 +13,43 @@ const GameMenu: React.FC<GameMenuProps> = ({ startGame }) => {
                 <Card className='p-5'>
                     <CardContent>
                         <p>
-Правила: стратегическая игра для двух игроков на поле 4×4, где нужно выставлять фишки разного размера.
-Существует всего три размера фишек: маленький, средний, большой.
-Побеждает тот, кто первым соберет 4 свои фишки в ряд (по горизонтали, вертикали или диагонали).
-Фишки ставятся по следующему правилу: на пустое место ставится маленькая, на маленькую - средняя, на среднюю - большая.
-Учитывается только размер, а не чья фишка стоит в клетке (на фишку противника можно поставить свою фишку). 
-
+                            Правила: стратегическая игра для двух игроков на поле 4×4, где нужно выставлять фишки разного размера. Существует всего
+                            три размера фишек: маленький, средний, большой. Побеждает тот, кто первым соберет 4 свои фишки в ряд (по горизонтали,
+                            вертикали или диагонали). Фишки ставятся по следующему правилу: на пустое место ставится маленькая, на маленькую -
+                            средняя, на среднюю - большая. Учитывается только размер, а не чья фишка стоит в клетке (на фишку противника можно
+                            поставить свою фишку).
                         </p>
                         <div className='flex flex-col gap-4 pt-5'>
-                            <Button variant='secondary' onClick={() => startGame('player')} className='p-10 border-2'>
-                                Играть вдвоём
-                            </Button>
-                            <Button variant='secondary' onClick={() => startGame('computer')} className='p-10 border-2'>
-                                Играть с компьютером
-                            </Button>
+                            <Card>
+                                <CardContent>
+                                    <div className='grid grid-cols-3 gap-4'>
+                                        <Button variant='secondary' onClick={() => startGame('player', 3)} className='p-10 border-2'>
+                                            Играть вдвоём 3x3
+                                        </Button>
+                                        <Button variant='secondary' onClick={() => startGame('player', 4)} className='p-10 border-2'>
+                                            Играть вдвоём 4x4
+                                        </Button>
+                                        <Button variant='secondary' onClick={() => startGame('player', 5)} className='p-10 border-2'>
+                                            Играть вдвоём 5x5
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardContent>
+                                    <div className='grid grid-cols-3 gap-4'>
+                                        <Button variant='secondary' onClick={() => startGame('computer', 3)} className='p-10 border-2'>
+                                            Играть с компьютером 3x3
+                                        </Button>
+                                        <Button variant='secondary' onClick={() => startGame('computer', 4)} className='p-10 border-2'>
+                                            Играть с компьютером 4x4
+                                        </Button>
+                                        <Button variant='secondary' onClick={() => startGame('computer', 5)} className='p-10 border-2'>
+                                            Играть с компьютером 5x5
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </div>
                     </CardContent>
                 </Card>
