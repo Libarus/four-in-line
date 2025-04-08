@@ -64,7 +64,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, gameCells, endGame, ret
                 // Нет возможных ходов - ничья
                 endGame('draw');
             }
-        }, 1000);
+        }, 100);
     };
 
     const handleCellClick = (row: number, col: number) => {
@@ -144,7 +144,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, gameCells, endGame, ret
                 const newRow = row - i * dx;
                 const newCol = col - i * dy;
 
-                if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
+                if (newRow >= 0 && newRow < gameCells && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
                     count++;
                 } else {
                     break;
