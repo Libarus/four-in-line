@@ -3,6 +3,7 @@ import { Chip } from './Chip';
 import { Board, TChip, ChipSize, GameMode, Player, PlayerChips } from '../types/gameTypes';
 import { Button } from '@/shared/components/ui';
 import { cn } from '@/shared/lib/utils';
+import { checkWin, getNextChipSize, getSteps } from '@/libs/ai';
 
 interface GameBoardProps {
     gameMode: GameMode;
@@ -33,13 +34,6 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
             makeComputerMove();
         }
     }, [currentPlayer]);
-
-    const getNextChipSize = (cell: TChip | null): ChipSize | null => {
-        if (!cell) return 'small';
-        if (cell.size === 'small') return 'medium';
-        if (cell.size === 'medium') return 'large';
-        return null;
-    };
 
     const makeComputerMove = () => {
         setTimeout(() => {
@@ -115,49 +109,6 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
         return true;
     };
 
-    const checkWin = (board: Board, row: number, col: number, player: Player): boolean => {
-        const directions = [
-            [0, 1], // горизонталь
-            [1, 0], // вертикаль
-            [1, 1], // диагональ вниз-вправо
-            [1, -1], // диагональ вниз-влево
-        ];
-
-        for (const [dx, dy] of directions) {
-            let count = 1;
-
-            // Проверяем в положительном направлении
-            for (let i = 1; i < 4; i++) {
-                const newRow = row + i * dx;
-                const newCol = col + i * dy;
-
-                if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
-                    count++;
-                } else {
-                    break;
-                }
-            }
-
-            // Проверяем в отрицательном направлении
-            for (let i = 1; i < 4; i++) {
-                const newRow = row - i * dx;
-                const newCol = col - i * dy;
-
-                if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4 && board[newRow][newCol]?.player === player) {
-                    count++;
-                } else {
-                    break;
-                }
-            }
-
-            if (count >= 4) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
     const renderCell = (row: number, col: number) => {
         const cell = board[row][col];
         const isInteractive = gameMode === 'player' || currentPlayer === 1;
@@ -165,7 +116,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
         const class_name = cn('w-20 h-20 bg-border rounded-md', 'flex items-center justify-center', 'hover:bg-primary/10 transition-colors');
 
         return (
-            <div onClick={() => isInteractive && handleCellClick(row, col)} className={class_name}>
+            <div key={row + col * 4} onClick={() => isInteractive && handleCellClick(row, col)} className={class_name}>
                 {cell && <Chip player={cell.player} size={cell.size} />}
             </div>
         );
@@ -175,6 +126,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
     //   return `${size.charAt(0).toUpperCase() + size.slice(1)}: ${playerChips[player][size]}`;
     // };
 
+    const goSteps = () => {
+        getSteps(board, currentPlayer);
+    }
+
     return (
         <div>
             <div>
@@ -183,13 +138,17 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, endGame, returnToMenu }
             <div className='flex justify-center w-full'>
                 <div className='grid grid-cols-4 gap-4 w-fit'>
                     {board.map((row: (TChip | null)[], rowIndex: number) => (
-                        <>{row.map((_, colIndex) => renderCell(rowIndex, colIndex))}</>
+                        row.map((_, colIndex) => renderCell(rowIndex, colIndex))
                     ))}
                 </div>
             </div>
             <div className='text-center pt-5'>
                 <Button variant='outline' className='menu-btn' onClick={returnToMenu}>
                     Вернуться в меню
+                </Button>
+                <hr/>
+                <Button variant='outline' className='menu-btn' onClick={goSteps}>
+                    Шаги
                 </Button>
             </div>
         </div>
