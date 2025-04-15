@@ -133,7 +133,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameMode, gameCells, endGame, ret
                 <h2 className={`player-${currentPlayer}-color text-center text-2xl font-bold pb-10 pt-5`}>Ход игрока {currentPlayer}</h2>
             </div>
             <div className='flex justify-center w-full'>
-                <div className={`grid grid-cols-${gameCells} gap-4 w-fit`}>
+                <div className={cn(`grid`, `grid-cols-${gameCells}`, `gap-4 w-fit`)}>
                     {board.map((row: (TChip | null)[], rowIndex: number) => (
                         row.map((_, colIndex) => renderCell(rowIndex, colIndex))
                     ))}
