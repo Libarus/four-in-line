@@ -6,12 +6,12 @@ let stepCount = 0;
 export function getSteps(board: Board, player: Player) {
     stepCount = 0;
     const shadowBoard = board.map((row: (TChip | null)[]) => [...row]);
-    shadowBoard[2][2] = { player: 2, size: 'large' };
+    console.clear();
     nextMoves(shadowBoard, player);
     console.log('stepCount', stepCount);
 }
 
-function nextMoves(board: Board, player: Player) {
+function nextMoves(board: Board, player: Player, level: number = 0) {
     const steps = [];
     for (let row = 0; row < 4; row++) {
         for (let col = 0; col < 4; col++) {
@@ -23,9 +23,9 @@ function nextMoves(board: Board, player: Player) {
         }
     }
 
-    console.clear();
     console.log('Player: ', player);
     for (let i = 0; i < steps.length; i++) {
+        console.log(`Level: ${level} Step: ${i + 1} StepCount: ${stepCount} Stop: ${stop}`);
         const step = steps[i];
         stepCount++;
 
@@ -33,13 +33,12 @@ function nextMoves(board: Board, player: Player) {
         board[step.row][step.col] = { player, size: step.size };
 
         stop = checkWin(board, step.row, step.col, player);
-
         if (stop) { 
-            //console.log(`WIN WIN WIN WIN WIN WIN WIN WIN WIN Player ${player}`);
+            console.log(`WIN WIN WIN WIN WIN WIN WIN WIN WIN Player ${player}`);
             //break;
+        } else {
+            if (level <= 1) nextMoves(board, player === 1 ? 2 : 1, (level + 1));
         }
-        
-        nextMoves(board, player === 1 ? 2 : 1);
     }
 
 }
